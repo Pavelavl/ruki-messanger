@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import styles from "./Auth.module.css";
 import logo from "../../assets/images/logo.svg";
 
