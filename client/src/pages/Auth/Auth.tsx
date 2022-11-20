@@ -48,7 +48,7 @@ export const Auth = () => {
                 <div className={styles.inputbox}>
                   <div className={mail}></div>
                   <input placeholder="example@mail.ru" type="email" />
-                  <button onClick={handleCode} type="submit">
+                  <button className={styles.code} onClick={handleCode} type="submit">
                     Code
                   </button>
                 </div>
