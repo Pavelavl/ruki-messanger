@@ -45,6 +45,7 @@ body {
     font-family: 'Rubik', sans-serif;
     font-size: 14px;
     color: var(--main-text-color);
+    overflow-y: hidden;
 }
 
 input, button {
