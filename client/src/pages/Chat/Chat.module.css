@@ -1,0 +1,74 @@
+.chat {
+    display: flex;
+}
+
+.leftpart {
+    min-width: 22vw;
+    height: 100vw;
+    display: flex;
+    flex-flow: column;
+    background: var(--background);
+}
+
+.chats {
+    overflow-y: scroll;
+    height: 100vh;
+}
+
+.searchblock {
+    position: sticky;
+    display: flex;
+    justify-content: space-evenly;
+    padding: 10px 20px 10px 0;
+    background-color: var(--background);
+}
+
+.options_block {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.options {
+    background-image: url('../../assets/images/options.svg');
+    width: 25px;
+    height: 25px;
+}
+
+.options_block:hover {
+    background-color: var(--manage-item);
+}
+
+.options_block:active {
+    background-color: var(--active-item);
+}
+
+.string {
+    width: 17vw;
+    height: 40px;
+    border-radius: 15px;
+    background-color: var(--search-input);
+    display: flex;
+    align-items: center;
+}
+
+.loop_block {
+    padding: 0 10px;
+}
+
+.loop {
+    background-image: url('../../assets/images/search.svg');
+    background-repeat: no-repeat;
+    width: 22px;
+    height: 22px;
+}
+
+.rightpart {
+    background-color: var(--background);
+    width: 100%;
+}

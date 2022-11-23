@@ -1,10 +1,50 @@
 @import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
+html[data-theme='dark'] {
+    --main-text-color: #fff;
+    --background: #282e33;
+    --background-chat: #18191d;
+    --selected-chat: #1966b3;
+    --hover-chat: #353c43;
+    --background-message: #33393f;
+    --background-client-message: #2a2f33;
+    --main: #51a6ec;
+    --invisible-item: #828d94;
+    --manage-item: rgba(109, 111, 112, 0.2);
+    --active-item: #43474d;
+    --search-input: #3d444b;
+}
+
+::-webkit-scrollbar {
+    border-radius: 5px;
+    width: 8px;
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+::-webkit-scrollbar-thumb{
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+html[data-theme='light'] {
+    --main-text-color: #000;
+    --background: #fff;
+    --background-chat: #dfe4e8;
+    --selected-chat: #41a1d9;
+    --hover-chat: #f1f1f1;
+    --background-message: #fff;
+    --background-client-message: #effdde;
+    --main: #37a3de;
+    --invisible-item: #a0acb6;
+    --manage-item: rgba(178, 178, 178, 0.2);
+    --search-input: #f1f1f1;
+}
+
 body {
     margin: 0;
     font-family: 'Rubik', sans-serif;
     font-size: 14px;
-    color: #fff
+    color: var(--main-text-color);
 }
 
 input, button {

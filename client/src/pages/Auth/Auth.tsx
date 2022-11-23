@@ -92,7 +92,7 @@ export const Auth = () => {
         ) : (
           <div className={styles.yet}>
             <span onClick={() => setIsReg((prev) => !prev)} className={styles.underline}>Sign up</span>
-            <span className={styles.pd5}>if you don’t have an account yet.</span>
+            <span className={styles.pd5}>if you don't have an account yet.</span>
           </div>
         )}
       </div>

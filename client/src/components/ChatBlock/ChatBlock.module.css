@@ -1,0 +1,56 @@
+.block {
+    width: 100%;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+}
+
+.block:hover {
+    background-color: var(--manage-item);
+}
+
+.block:active {
+    background-color: var(--active-item);
+}
+
+.block__inner {
+    padding: 10px;
+    display: flex;
+}
+
+.avatar {
+    background-image: url('../../assets/images/avatar.png');
+    min-width: 55px;
+    min-height: 55px;
+    border-radius: 50%;
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+
+.chatinfo {
+    display: flex;
+    flex-flow: column;
+    justify-content: space-evenly;
+    width: 100%;
+    padding: 0 10px;
+}
+
+.top, .bottom {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+}
+
+.lastmsgtime, .msg {
+    color: var(--invisible-item);
+}
+
+.unread {
+    background-color: var(--invisible-item);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    min-width: 24px;
+    height: 24px;
+}
