@@ -34,19 +34,19 @@ export const Auth = () => {
             {isReg ? (
               <div className={styles.inputs_reg}>
                 <div className={styles.inputbox}>
-                  <div className={login}></div>
+                  <div className={login} />
                   <input placeholder="login" type="text" />
                 </div>
                 <div className={styles.inputbox}>
-                  <div className={pass}></div>
+                  <div className={pass} />
                   <input placeholder="password" type="password" />
                 </div>
                 <div className={styles.inputbox}>
-                  <div className={passConf}></div>
+                  <div className={passConf} />
                   <input placeholder="confirm password" type="password" />
                 </div>
                 <div className={styles.inputbox}>
-                  <div className={mail}></div>
+                  <div className={mail} />
                   <input placeholder="example@mail.ru" type="email" />
                   <button className={styles.code} onClick={handleCode} type="submit">
                     Code
@@ -58,18 +58,18 @@ export const Auth = () => {
                     isInvisible ? styles.invisible : " ",
                   ].join(" ")}
                 >
-                  <div className={msg}></div>
+                  <div className={msg} />
                   <input placeholder="code from mail" type="text" />
                 </div>
               </div>
             ) : (
               <div className={styles.inputs_auth}>
                 <div className={styles.inputbox}>
-                  <div className={login}></div>
+                  <div className={login} />
                   <input placeholder="login" type="text" />
                 </div>
                 <div className={styles.inputbox}>
-                  <div className={pass}></div>
+                  <div className={pass} />
                   <input placeholder="password" type="password" />
                 </div>
               </div>

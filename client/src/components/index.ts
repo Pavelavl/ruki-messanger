@@ -1,3 +1,2 @@
-export * from './ChatBlock/ChatBlock';
-export * from './DateSplitter/DateSplitter'
-export * from './Message/Message'
+export * from "./ChatBlock/ChatBlock";
+export * from "./MesssageContainer/MessageContainer";

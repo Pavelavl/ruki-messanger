@@ -1,0 +1,16 @@
+.container {
+    display: flex;
+    justify-content: center;
+}
+
+.body {
+    padding: 7px 10px;
+}
+
+.splitter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px;
+    background-color: var(--manage-item);
+}

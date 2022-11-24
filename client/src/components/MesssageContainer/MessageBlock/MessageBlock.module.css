@@ -1,0 +1,50 @@
+.flow {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 10px;
+}
+
+.body {
+    padding: 10px 10px 5px 10px;
+    user-select: text;
+}
+
+.message {
+    justify-content: flex-end;
+    min-width: 200px;
+    min-height: 33px;
+    max-height: 600px;
+    max-width: 480px;
+    background-color: var(--background-client-message);
+    border-radius: 6px;
+}
+
+.msgtime {
+    font-size: inherit;
+    font-size: 12px;
+    color: var(--invisible-item);
+    padding: 0 10px 5px 10px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.read, .unread {
+    width: 15px;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    
+}
+
+.read {
+    background-image: url('../../../assets/images/read.svg');
+    height: 10px;
+    margin-left: 5px;
+}
+
+.unread {
+    background-image: url('../../../assets/images/unread.svg');
+    height: 10px;
+    margin-left: 3px;
+}

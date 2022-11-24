@@ -1,5 +1,12 @@
+@media screen and (min-width: 1280px) {
+    .invisible {
+        display: none !important;
+    }
+}
+
 .chat {
     display: flex;
+    user-select: none;
 }
 
 .leftpart {
@@ -19,11 +26,11 @@
     position: sticky;
     display: flex;
     justify-content: space-evenly;
-    padding: 10px 20px 10px 0;
+    padding: 10px 20px 10px 5px;
     background-color: var(--background);
 }
 
-.options_block {
+.btn_block, .loop_container {
     width: 40px;
     height: 40px;
     display: flex;
@@ -40,11 +47,11 @@
     height: 25px;
 }
 
-.options_block:hover {
+.btn_block:hover {
     background-color: var(--manage-item);
 }
 
-.options_block:active {
+.btn_block:active {
     background-color: var(--active-item);
 }
 
@@ -57,18 +64,92 @@
     align-items: center;
 }
 
-.loop_block {
-    padding: 0 10px;
-}
-
 .loop {
     background-image: url('../../assets/images/search.svg');
+}
+
+.back {
+    background-image: url('../../assets/images/back.svg');
+}
+
+.back, .loop, .settings {
     background-repeat: no-repeat;
     width: 22px;
     height: 22px;
+    background-size: 100%;
+}
+
+.background {
+    background-color: var(--background) !important;
+    padding: 0 15px;
 }
 
 .rightpart {
-    background-color: var(--background);
+    background-color: var(--background-chat);
     width: 100%;
+    display: flex;
+    flex-flow: column;
+}
+
+.infobar {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.leftside {
+    display: flex;
+    align-items: center;
+}
+
+.rightside {
+    display: flex;
+}
+
+.settings {
+    background-image: url('../../assets/images/dots.svg');
+}
+
+.avatar {
+    background-image: url('../../assets/images/avatar.png');
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    margin: 0 20px 0 10px;
+}
+
+.nameblock {
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+    flex-flow: column;
+    cursor: pointer;
+}
+
+.last {
+    color: var(--invisible-item);
+}
+
+.background {
+    background-color: var(--background-chat);
+}
+
+.chatblock {
+    height: 86vh;
+}
+
+.messagebar {
+    height: 80px;
+}
+
+.overflow_y {
+    overflow-y: scroll;
+    padding: 0 5vw;
+    height: 100%;
+    display: flex;
+    flex-flow: column-reverse;
 }
