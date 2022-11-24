@@ -18,7 +18,7 @@ const someData = [
   {
     id: 2,
     hash: 2134,
-    sender: 'pavel',
+    sender: 'kj',
     message: "ок, не буду.",
     date: new Date(Date.now() - 172800002),
     seen: false,
@@ -34,9 +34,9 @@ const someData = [
   {
     id: 4,
     hash: 123123123,
-    sender: 'pavel',
+    sender: 'kj',
     message: "ок, иду работать",
-    date: new Date(),
+    date: new Date(Date.now() - 86400001),
     seen: false,
   },
   {
@@ -44,7 +44,7 @@ const someData = [
     hash: 123123123,
     sender: 'pavel',
     message: "отлично.",
-    date: new Date(),
+    date: new Date(Date.now() - 86400001),
     seen: false,
   },
   {
@@ -58,94 +58,12 @@ const someData = [
   {
     id: 7,
     hash: 123123123,
-    sender: 'pavel',
-    message: "ну всё, иди работай.",
-    date: new Date(),
-    seen: false,
-  },
-  {
-    id: 8,
-    hash: 123123123,
-    sender: 'pavel',
-    message: "ну всё, иди работай.",
-    date: new Date(),
-    seen: false,
-  },
-  {
-    id: 9,
-    hash: 123123123,
-    sender: 'pavel',
-    message: "ну всё, иди работай.",
-    date: new Date(),
-    seen: false,
-  },
-  {
-    id: 10,
-    hash: 123123123,
-    sender: 'pavel',
-    message: "ну всё, иди работай.",
-    date: new Date(),
-    seen: false,
-  },
-  {
-    id: 11,
-    hash: 123123123,
-    sender: 'pavel',
-    message: "ну всё, иди работай.",
-    date: new Date(),
-    seen: false,
-  },
-  {
-    id: 12,
-    hash: 123123123,
-    sender: 'pavel',
-    message: "ну всё, иди работай.",
-    date: new Date(),
-    seen: false,
-  },
-  {
-    id: 13,
-    hash: 123123123,
-    sender: 'pavel',
-    message: "ну всё, иди работай.",
-    date: new Date(),
-    seen: false,
-  },
-  {
-    id: 14,
-    hash: 123123123,
-    sender: 'pavel',
-    message: "ну всё, иди работай.",
-    date: new Date(),
-    seen: false,
-  },
-  {
-    id: 15,
-    hash: 123123123,
-    sender: 'pavel',
-    message: "ну всё, иди работай.",
-    date: new Date(),
-    seen: false,
-  },
-  {
-    id: 16,
-    hash: 123123123,
-    sender: 'pavel',
-    message: "ну всё, иди работай.",
-    date: new Date(),
-    seen: false,
-  },
-  {
-    id: 17,
-    hash: 123123123,
-    sender: 'pavel',
-    message: "ну всё, иди работай.",
+    sender: 'kj',
+    message: "не",
     date: new Date(),
     seen: false,
   },
 ];
-
-someData.sort((a, b) => b.id - a.id);
 
 console.log(someData);
 
@@ -156,10 +74,10 @@ export const MessageContainer = () => {
         e.date.valueOf() < today.valueOf() ? (
           <div className={styles.pd10}>
             <DateSplitter date={e.date} />
-            <MessageBlock />
+            <MessageBlock message={e.message} sender={e.sender} date={e.date} seen={e.seen}/>
           </div>
         ) : (
-          <MessageBlock />
+          <MessageBlock message={e.message} sender={e.sender} date={e.date} seen={e.seen}/>
         )
       )}
     </div>

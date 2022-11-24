@@ -1,6 +1,5 @@
 import { formatDate } from "./utils";
 import styles from "./DateSplitter.module.css";
-const tempDate = new Date(Date.now() - 60000);
 
 export const DateSplitter = ({ date }: { date: Date }) => {
   return (

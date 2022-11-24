@@ -1,20 +1,22 @@
 import styles from "./MessageBlock.module.css";
+import { IMessageProps } from "./types";
+const account = localStorage.getItem('account');
 
-export const MessageBlock = () => {
+export const MessageBlock = (props: IMessageProps) => {
+  const message = [styles.message, props.sender === account ? styles.back_client : styles.back_buddy].join(" ");
+  const flow = [styles.flow, props.sender === account && styles.position_client].join(" ");
+
   return (
-    <div className={styles.flow}>
-      <div className={styles.message}>
+    <div className={flow}>
+      <div className={message}>
         <div className={styles.body}>
-          <span className={styles.text}>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt at
-            ea eos? Qui, numquam eos! Explicabo, possimus? Consectetur, aperiam,
-            autem nobis vitae repellendus incidunt, excepturi esse optio
-            aspernatur quos odit.
-          </span>
+          <span className={styles.text}>{props.message}</span>
         </div>
         <div className={styles.msgtime}>
-          <div className={styles.time}>19:23</div>
-          <div className={styles.read}></div>
+          <div
+            className={styles.time}
+          >{`${props.date.getHours()}:${props.date.getMinutes()}`}</div>
+          <div className={props.seen ? styles.read : styles.unread}></div>
         </div>
       </div>
     </div>
