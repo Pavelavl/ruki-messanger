@@ -10,7 +10,7 @@
 }
 
 .message {
-    min-width: 200px;
+    min-width: 90px;
     min-height: 33px;
     max-height: 600px;
     max-width: 480px;

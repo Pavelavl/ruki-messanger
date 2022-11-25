@@ -40,7 +40,7 @@ export const Chat = () => {
           <ChatBlock />
           <ChatBlock />
           <ChatBlock />
-          <ChatBlock /> 
+          <ChatBlock />
           {/* filling the percentages of the typescript on the github. (while prod) */}
           <ChatBlock />
           <ChatBlock />
@@ -85,9 +85,11 @@ export const Chat = () => {
             <MessageContainer />
           </div>
         </div>
-        <div className={styles.messagebar}>
-          <input type="text" className={styles.message} />
-          <div className={styles.mic} />
+        <div className={styles.message_block}>
+          <div className={styles.messagebar}>
+            <input type="text" className={styles.message} placeholder="Message"/>
+            <div className={styles.mic} />
+          </div>
         </div>
       </div>
     </section>

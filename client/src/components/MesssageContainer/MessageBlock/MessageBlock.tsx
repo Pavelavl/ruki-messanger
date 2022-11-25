@@ -15,7 +15,7 @@ export const MessageBlock = (props: IMessageProps) => {
         <div className={styles.msgtime}>
           <div
             className={styles.time}
-          >{`${props.date.getHours()}:${props.date.getMinutes()}`}</div>
+          >{`${props.date.getHours()}:${props.date.getMinutes().toString().length == 1 ? '0' + props.date.getMinutes().toString() : props.date.getMinutes()}`}</div>
           <div className={props.seen ? styles.read : styles.unread}></div>
         </div>
       </div>
