@@ -21,11 +21,16 @@ export const getUserbyId = async (
   res: Response
 ): Promise<Response> => {
   const id = parseInt(req.params.id);
-  const response: QueryResult = await pool.query(
-    "SELECT * FROM users WHERE id = $1",
-    [id]
-  );
-  return res.json(response.rows);
+  try {
+    const response: QueryResult = await pool.query(
+      "SELECT * FROM users WHERE id = $1",
+      [id]
+    );
+    return res.json(response.rows);
+  } catch (e) {
+    console.log(e);
+    return res.status(500).json("Internal server error");
+  }
 };
 
 export const createUser = async (
@@ -33,20 +38,25 @@ export const createUser = async (
   res: Response
 ): Promise<Response> => {
   const { username, password, mail } = req.body;
-  const response: QueryResult = await pool.query(
-    "INSERT INTO users (username, password, mail) VALUES ($1, $2)",
-    [username, password, mail]
-  );
-  return res.json({
-    message: "User created succesfully",
-    body: {
-      user: {
-        username,
-        password,
-        mail,
+  try {
+    await pool.query(
+      "INSERT INTO users (username, password, mail) VALUES ($1, $2)",
+      [username, password, mail]
+    );
+    return res.json({
+      message: "User created succesfully",
+      body: {
+        user: {
+          username,
+          password,
+          mail,
+        },
       },
-    },
-  });
+    });
+  } catch (e) {
+    console.log(e);
+    return res.status(500).json("Internal server error");
+  }
 };
 
 export const updateUserbyId = async (
@@ -55,11 +65,16 @@ export const updateUserbyId = async (
 ): Promise<Response> => {
   const id = parseInt(req.params.id);
   const { username, description, name, surname } = req.body;
-  await pool.query(
-    "UPDATE users SET username = $1, description = $2, name = $3, surname = $4 WHERE id = $5",
-    [username, description, name, surname, id]
-  );
-  return res.json(`User ${id} updated successfully`);
+  try {
+    await pool.query(
+      "UPDATE users SET username = $1, description = $2, name = $3, surname = $4 WHERE id = $5",
+      [username, description, name, surname, id]
+    );
+    return res.json(`User ${id} updated successfully`);
+  } catch (e) {
+    console.log(e);
+    return res.status(500).json("Internal server error");
+  }
 };
 
 export const deleteUserbyId = async (
@@ -67,6 +82,11 @@ export const deleteUserbyId = async (
   res: Response
 ): Promise<Response> => {
   const id = parseInt(req.params.id);
-  await pool.query("DELETE FROM users WHERE id = $1", [id]);
-  return res.json(`User ${id} deleted successfully`);
+  try {
+    await pool.query("DELETE FROM users WHERE id = $1", [id]);
+    return res.json(`User ${id} deleted successfully`);
+  } catch (e) {
+    console.log(e);
+    return res.status(500).json("Internal server error");
+  }
 };
