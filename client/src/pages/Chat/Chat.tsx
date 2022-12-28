@@ -1,10 +1,31 @@
 import styles from "./Chat.module.css";
 import { ChatBlock, MessageContainer } from "../../components";
 import { lastVisit } from "./utils";
+import { useContext, useEffect, useState } from "react";
+import { Context } from "../..";
+import UserService from "../../services/UserService";
+import { UsersResponse } from "../../models/response/UsersResponse";
+import { observer } from "mobx-react-lite";
 
 const date = new Date(Date.now() - 400000); // while production
 
-export const Chat = () => {
+const Chat = () => {
+  const { store } = useContext(Context);
+  const [users, setUsers] = useState<UsersResponse[]>([]);
+
+  async function getUsers() {
+    try {
+      const response = await UserService.fetchUsers();
+      setUsers(response.data);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  useEffect(() => {
+    getUsers();
+  }, []);
+
   return (
     <section className={styles.chat}>
       <div className={styles.leftpart}>
@@ -20,41 +41,9 @@ export const Chat = () => {
           </div>
         </div>
         <div className={styles.chats}>
-          <ChatBlock />
-          <ChatBlock />
-          <ChatBlock />
-          <ChatBlock />
-          <ChatBlock />
-          <ChatBlock />
-          <ChatBlock />
-          <ChatBlock />
-          <ChatBlock />
-          <ChatBlock />
-          <ChatBlock />
-          <ChatBlock />
-          <ChatBlock />
-          <ChatBlock />
-          <ChatBlock />
-          <ChatBlock />
-          <ChatBlock />
-          <ChatBlock />
-          <ChatBlock />
-          <ChatBlock />
-          <ChatBlock />
-          {/* filling the percentages of the typescript on the github. (while prod) */}
-          <ChatBlock />
-          <ChatBlock />
-          <ChatBlock />
-          <ChatBlock />
-          <ChatBlock />
-          <ChatBlock />
-          <ChatBlock />
-          <ChatBlock />
-          <ChatBlock />
-          <ChatBlock />
-          <ChatBlock />
-          <ChatBlock />
-          <ChatBlock />
+          {users.map((item) => (
+            <ChatBlock user={item} key={item.id} />
+          ))}
         </div>
       </div>
       <div className={styles.rightpart}>
@@ -87,7 +76,11 @@ export const Chat = () => {
         </div>
         <div className={styles.message_block}>
           <div className={styles.messagebar}>
-            <input type="text" className={styles.message} placeholder="Message"/>
+            <input
+              type="text"
+              className={styles.message}
+              placeholder="Message"
+            />
             <div className={styles.mic} />
           </div>
         </div>
@@ -95,3 +88,5 @@ export const Chat = () => {
     </section>
   );
 };
+
+export default observer(Chat);

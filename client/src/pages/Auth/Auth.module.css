@@ -132,3 +132,9 @@
 .code:hover {
     opacity: 1;
 }
+
+.err {
+    font-size: 12px;
+    display: flex;
+    margin-top: 5px;
+}

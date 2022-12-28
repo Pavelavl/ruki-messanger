@@ -12,6 +12,10 @@
     background-color: var(--active-item);
 }
 
+.active {
+    background-color: var(--selected-chat);
+}
+
 .block__inner {
     padding: 10px;
     display: flex;

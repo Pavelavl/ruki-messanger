@@ -79,7 +79,7 @@ export const MessageContainer = () => {
               date={e.date}
               seen={e.seen}
             />
-            {i != someData.length &&
+            {i !== someData.length &&
               someData[i + 1].date.valueOf() - e.date.valueOf() >= 86400000 && (
                 <DateSplitter date={someData[i + 1].date} />
               )}

@@ -1,8 +1,11 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Auth, Chat, NotFound } from "./pages";
+import { NotFound } from "./pages";
 import './App.css'
+import Chat from "./pages/Chat/Chat";
+import Auth from "./pages/Auth/Auth";
+import { observer } from "mobx-react-lite";
 
-function App() {
+const App = () => {
   return (
     <BrowserRouter>
       <Routes>
@@ -14,4 +17,4 @@ function App() {
   );
 }
 
-export default App;
+export default observer(App);
