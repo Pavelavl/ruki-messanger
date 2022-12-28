@@ -1,1 +1,1 @@
-# Nodejs, PostgreSQL & Typescript REST API
+# Server part of the Ruki
