@@ -11,7 +11,7 @@ const passConf = [styles.pass_conf_img, styles.icon].join(" ");
 const email = [styles.mail_img, styles.icon].join(" ");
 const msg = [styles.msg_img, styles.icon].join(" ");
 
-const Auth = () => {
+export const Auth = observer(() => {
   const navigate = useNavigate();
   const [isReg, setIsReg] = useState(false);
   const [isInvisible, setIsInvisible] = useState(true);
@@ -104,20 +104,20 @@ const Auth = () => {
     }
 
     if (localStorage.getItem("token")) {
-      navigate("/chat");
+      navigate("/chat", {});
     }
   };
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
-      navigate("/chat");
+      navigate("/chat", {});
     }
-  }, []);
+  }, [navigate]);
 
   return (
     <section className={styles.background}>
       <div className={styles.container}>
-        <img src={logo} className={styles.logo} />
+        <img src={logo} className={styles.logo} alt="logo"/>
         <form onSubmit={handleSub}>
           <div className={styles.inputs_container}>
             {isReg ? (
@@ -272,6 +272,4 @@ const Auth = () => {
       </div>
     </section>
   );
-};
-
-export default observer(Auth);
+});

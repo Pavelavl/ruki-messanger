@@ -1,9 +1,8 @@
 import $api from "../http";
 import { AxiosResponse } from "axios";
-import { UsersResponse } from "../models/response/UsersResponse";
-import { ChatResponse } from "../models/response/ChatResponse";
+import { UsersResponse, ChatResponse } from "../models/response";
 
-export default class UserService {
+export class UserService {
   static fetchUsers(): Promise<AxiosResponse<UsersResponse[]>> {
     return $api.get<UsersResponse[]>("/users");
   }
@@ -11,8 +10,8 @@ export default class UserService {
   static fetchChat(
     id1: number,
     id2: number
-  ): Promise<AxiosResponse<ChatResponse[]>> {
-    return $api.post<ChatResponse[]>("/chat", { id1, id2 });
+  ): Promise<AxiosResponse<ChatResponse>> {
+    return $api.post<ChatResponse>("/chat", { id1, id2 });
   }
 
   static sendMessage(

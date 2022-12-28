@@ -1,8 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { NotFound } from "./pages";
 import './App.css'
-import Chat from "./pages/Chat/Chat";
-import Auth from "./pages/Auth/Auth";
+import { Chat, Auth } from "./pages";
 import { observer } from "mobx-react-lite";
 
 const App = () => {

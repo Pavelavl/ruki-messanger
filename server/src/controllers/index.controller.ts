@@ -82,20 +82,23 @@ export const createUser = async (req: Request, res: Response) => {
     );
   }
 
-  res.status(200).json(generateToken(username, mail));
+  res.status(200).json(generateToken(username, mail, usersId.at(-1)));
 };
 
 export const loginUser = async (req: Request, res: Response) => {
   const { mail, password } = req.body;
-  const user: IUser = await pool
-    .query("SELECT * FROM users WHERE mail = $1", [mail])
-    .then((res) => res.rows[0]);
+  try {
+    const user: IUser = await pool
+      .query("SELECT * FROM users WHERE mail = $1", [mail])
+      .then((res) => res.rows[0]);
 
-  const passwordEquals = await bcrypt.compare(password, user.password);
-  if (user && passwordEquals) {
-    return res.json(generateToken(user.username, user.mail));
+    const passwordEquals = await bcrypt.compare(password, user.password);
+    if (user && passwordEquals) {
+      return res.json(generateToken(user.username, user.mail, user.id));
+    }
+  } catch (e) {
+    throw new Error("Incorrect email or password.");
   }
-  throw new Error("Incorrect email or password.");
 };
 
 export const getChat = async (
@@ -108,7 +111,7 @@ export const getChat = async (
     const response: QueryResult = await pool.query(
       `SELECT * FROM chat_${chatHash}`
     );
-    return res.status(200).json(response.rows);
+    return res.status(200).json(response.rows[0]);
   } catch (e) {
     console.log(e);
     return res.status(500).json("Internal Server error");
@@ -133,14 +136,14 @@ export const sendMessage = async (
   }
 };
 
-const generateToken = (username: string, mail: string) => {
+const generateToken = (username: string, mail: string, id: number) => {
   const payload = { mail: mail };
   const token = sign(payload, process.env.SECRET_KEY);
   return {
     message: "User logged/registered successfully",
     body: {
       accessToken: token,
-      user: { username, mail },
+      user: { username, mail, id },
     },
   };
 };

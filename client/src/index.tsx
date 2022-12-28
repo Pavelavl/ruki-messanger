@@ -1,7 +1,7 @@
 import React, { createContext } from "react";
-import ReactDOM from "react-dom/client";
+import ReactDOM from "react-dom";
 import App from "./App";
-import Store from "./store/store";
+import { Store } from "./store/store";
 
 interface State {
   store: Store;
@@ -13,10 +13,7 @@ export const Context = createContext<State>({
   store,
 });
 
-const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement
-);
-root.render(
+ReactDOM.render(
   <React.StrictMode>
     <Context.Provider
       value={{
@@ -25,5 +22,6 @@ root.render(
     >
       <App />
     </Context.Provider>
-  </React.StrictMode>
+  </React.StrictMode>,
+  document.getElementById("root")
 );

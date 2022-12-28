@@ -1,19 +1,17 @@
 import styles from "./Chat.module.css";
 import { ChatBlock, MessageContainer } from "../../components";
 import { lastVisit } from "./utils";
-import { useContext, useEffect, useState } from "react";
-import { Context } from "../..";
-import UserService from "../../services/UserService";
-import { UsersResponse } from "../../models/response/UsersResponse";
+import { useEffect, useState } from "react";
+import { UserService } from "../../services";
+import { UsersResponse } from "../../models/response";
 import { observer } from "mobx-react-lite";
 
 const date = new Date(Date.now() - 400000); // while production
 
-const Chat = () => {
-  const { store } = useContext(Context);
+export const Chat = observer(() => {
   const [users, setUsers] = useState<UsersResponse[]>([]);
 
-  async function getUsers() {
+  const getUsers = async () => {
     try {
       const response = await UserService.fetchUsers();
       setUsers(response.data);
@@ -87,6 +85,4 @@ const Chat = () => {
       </div>
     </section>
   );
-};
-
-export default observer(Chat);
+});

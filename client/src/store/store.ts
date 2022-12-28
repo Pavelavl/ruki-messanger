@@ -1,15 +1,13 @@
 import { makeAutoObservable } from "mobx";
 import { IUser } from "../models/IUser";
-import { UsersResponse } from "../models/response/UsersResponse";
-import AuthService from "../services/AuthService";
-import UserService from "../services/UserService";
-import { ChatResponse } from "../models/response/ChatResponse";
+import { UsersResponse, ChatResponse } from "../models/response";
+import { AuthService, UserService } from "../services"
 
-export default class Store {
+export class Store {
   user = {} as IUser;
   isAuth = false;
   users = [] as UsersResponse[];
-  chat = [] as ChatResponse[];
+  chat = {} as ChatResponse;
 
   constructor() {
     makeAutoObservable(this);
@@ -23,7 +21,7 @@ export default class Store {
     this.isAuth = bool;
   }
 
-  setChat(chat: ChatResponse[]) {
+  setChat(chat: ChatResponse) {
     this.chat = chat;
   }
 
@@ -55,7 +53,7 @@ export default class Store {
 
   async logout() {
     try {
-      const response = await AuthService.logout();
+      await AuthService.logout();
       localStorage.removeItem("token");
       this.setAuth(false);
       this.setUser({} as IUser);
