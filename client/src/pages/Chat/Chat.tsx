@@ -1,15 +1,16 @@
 import styles from "./Chat.module.css";
 import { ChatBlock, MessageContainer } from "../../components";
 import { lastVisit } from "./utils";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { UserService } from "../../services";
 import { UsersResponse } from "../../models/response";
-import { observer } from "mobx-react-lite";
+import { useNavigate } from "react-router-dom";
 
 const date = new Date(Date.now() - 400000); // while production
 
-export const Chat = observer(() => {
+export const Chat = () => {
   const [users, setUsers] = useState<UsersResponse[]>([]);
+  const navigate = useNavigate();
 
   const getUsers = async () => {
     try {
@@ -18,11 +19,18 @@ export const Chat = observer(() => {
     } catch (e) {
       console.log(e);
     }
-  }
+  };
+
+  const checkIsAuth = useCallback(() => {
+    if (!localStorage.getItem("token")) {
+      navigate("/", {});
+    }
+  }, [navigate]);
 
   useEffect(() => {
+    checkIsAuth();
     getUsers();
-  }, []);
+  }, [checkIsAuth]);
 
   return (
     <section className={styles.chat}>
@@ -85,4 +93,4 @@ export const Chat = observer(() => {
       </div>
     </section>
   );
-});
+};

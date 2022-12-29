@@ -4,7 +4,6 @@
 > 
 > - React
 > - Typescript
-> - MobX
 > - CSS Modules
 
 > #### Server part stack:

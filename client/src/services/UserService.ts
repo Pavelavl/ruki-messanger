@@ -10,8 +10,8 @@ export class UserService {
   static fetchChat(
     id1: number,
     id2: number
-  ): Promise<AxiosResponse<ChatResponse>> {
-    return $api.post<ChatResponse>("/chat", { id1, id2 });
+  ): Promise<AxiosResponse<ChatResponse[]>> {
+    return $api.post<ChatResponse[]>("/chat", { id1, id2 });
   }
 
   static sendMessage(

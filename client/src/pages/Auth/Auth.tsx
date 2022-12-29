@@ -1,9 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Auth.module.css";
 import logo from "../../assets/images/logo.svg";
-import { Context } from "../..";
 import { useNavigate } from "react-router-dom";
-import { observer } from "mobx-react-lite";
+import { AuthService } from "../../services";
 
 const login = [styles.login_img, styles.icon].join(" ");
 const pass = [styles.pass_img, styles.icon].join(" ");
@@ -11,7 +10,7 @@ const passConf = [styles.pass_conf_img, styles.icon].join(" ");
 const email = [styles.mail_img, styles.icon].join(" ");
 const msg = [styles.msg_img, styles.icon].join(" ");
 
-export const Auth = observer(() => {
+export const Auth = () => {
   const navigate = useNavigate();
   const [isReg, setIsReg] = useState(false);
   const [isInvisible, setIsInvisible] = useState(true);
@@ -21,7 +20,6 @@ export const Auth = observer(() => {
     mail: "",
     confirmPassword: "",
   });
-  const { store } = useContext(Context);
 
   const [error, setError] = useState({
     username: "",
@@ -98,9 +96,9 @@ export const Auth = observer(() => {
     e.preventDefault();
 
     if (!isReg) {
-      await store.login(input.mail, input.password);
+      await AuthService.login(input.mail, input.password);
     } else {
-      await store.registration(input.username, input.mail, input.password);
+      await AuthService.registration(input.username, input.mail, input.password);
     }
 
     if (localStorage.getItem("token")) {
@@ -272,4 +270,4 @@ export const Auth = observer(() => {
       </div>
     </section>
   );
-});
+};

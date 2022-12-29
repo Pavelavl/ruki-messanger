@@ -111,7 +111,7 @@ export const getChat = async (
     const response: QueryResult = await pool.query(
       `SELECT * FROM chat_${chatHash}`
     );
-    return res.status(200).json(response.rows[0]);
+    return res.status(200).json(response.rows);
   } catch (e) {
     console.log(e);
     return res.status(500).json("Internal Server error");
@@ -137,7 +137,7 @@ export const sendMessage = async (
 };
 
 const generateToken = (username: string, mail: string, id: number) => {
-  const payload = { mail: mail };
+  const payload = { mail: mail, username: username, id: id };
   const token = sign(payload, process.env.SECRET_KEY);
   return {
     message: "User logged/registered successfully",

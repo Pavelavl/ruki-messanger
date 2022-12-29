@@ -1,21 +1,19 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import styles from "./ChatBlock.module.css";
 import { formatMsg } from "./utils";
 import { ChatResponse, UsersResponse } from "../../models/response";
-import { Context } from "../..";
 import { UserService } from "../../services";
-import { observer } from "mobx-react-lite";
+import jwtDecode from "jwt-decode";
+import { IUser } from "../../models/IUser";
 
-export const ChatBlock = observer(({ user }: { user: UsersResponse }) => {
+export const ChatBlock = ({ user }: { user: UsersResponse }) => {
   const [active, setActive] = useState([styles.block]);
-  const [chat, setChat] = useState<ChatResponse>();
-  const { store } = useContext(Context);
+  const [chat, setChat] = useState<ChatResponse[]>([]);
+  const userJwt: IUser = jwtDecode(localStorage.getItem("token")!);
 
   const getChat = async (id: number) => {
     try {
-      const sortedIds = [store.user.id, id].sort((a, b) => a - b);
-      console.log(store.user.id);
-      
+      const sortedIds = [userJwt.id, id].sort((a, b) => a - b);
       const response = await UserService.fetchChat(sortedIds[0], sortedIds[1]);
       setChat(response.data);
     } catch (e) {
@@ -32,7 +30,6 @@ export const ChatBlock = observer(({ user }: { user: UsersResponse }) => {
         );
         getChat(user.id);
         console.log(chat);
-        
       }}
     >
       <div className={styles.block__inner}>
@@ -56,4 +53,4 @@ export const ChatBlock = observer(({ user }: { user: UsersResponse }) => {
       </div>
     </div>
   );
-});
+};
