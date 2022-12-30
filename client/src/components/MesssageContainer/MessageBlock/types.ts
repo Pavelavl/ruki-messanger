@@ -1,6 +1,6 @@
 export interface IMessageProps {
     message: string,
-    sender: string,
+    sender: number,
     date: Date, 
     seen: boolean
 }

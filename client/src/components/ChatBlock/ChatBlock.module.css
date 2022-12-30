@@ -22,7 +22,7 @@
 }
 
 .avatar {
-    background-image: url('../../assets/images/avatar.png');
+    background-color: var(--manage-item);
     min-width: 55px;
     min-height: 55px;
     border-radius: 50%;
@@ -45,6 +45,10 @@
     align-items: center;
 }
 
+.bottom {
+    justify-content: flex-start;
+}
+
 .lastmsgtime, .msg {
     color: var(--invisible-item);
 }
@@ -58,4 +62,5 @@
     font-size: 12px;
     min-width: 20px;
     height: 20px;
+    margin: 35px 0 0 -15px;
 }

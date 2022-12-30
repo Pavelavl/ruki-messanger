@@ -1,10 +1,12 @@
+import { IUser } from "../../../models/IUser";
 import styles from "./MessageBlock.module.css";
 import { IMessageProps } from "./types";
-const account = localStorage.getItem('account');
+import jwtDecode from "jwt-decode";
 
 export const MessageBlock = (props: IMessageProps) => {
-  const message = [styles.message, props.sender === account ? styles.back_client : styles.back_buddy].join(" ");
-  const flow = [styles.flow, props.sender === account && styles.position_client].join(" ");
+  const account: IUser = jwtDecode(localStorage.getItem('token')!);
+  const message = [styles.message, props.sender === account.id ? styles.back_client : styles.back_buddy].join(" ");
+  const flow = [styles.flow, props.sender === account.id && styles.position_client].join(" ");
 
   return (
     <div className={flow}>

@@ -1,25 +1,42 @@
 import styles from "./Chat.module.css";
 import { ChatBlock, MessageContainer } from "../../components";
 import { lastVisit } from "./utils";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { UserService } from "../../services";
-import { UsersResponse } from "../../models/response";
+import { ChatResponse, UsersResponse } from "../../models/response";
 import { useNavigate } from "react-router-dom";
+import jwtDecode from "jwt-decode";
+import { IUser } from "../../models/IUser";
 
 const date = new Date(Date.now() - 400000); // while production
 
 export const Chat = () => {
   const [users, setUsers] = useState<UsersResponse[]>([]);
+  const [chat, setChat] = useState<ChatResponse[]>([]);
+  const userJwt: IUser = jwtDecode(localStorage.getItem("token")!);
   const navigate = useNavigate();
 
-  const getUsers = async () => {
+  const getUsers = useCallback(async () => {
     try {
       const response = await UserService.fetchUsers();
-      setUsers(response.data);
+      for (let i = 0; i < response.data.length; i++) {
+        const sortedIds = [userJwt.id, response.data[i].id].sort(
+          (a, b) => a - b
+        );
+        const chat = await UserService.fetchChat(sortedIds[0], sortedIds[1]);
+        setUsers((prev) =>
+          prev.reduce(
+            (s, el, i) => (response.data[i].id === el.id ? s++ : s),
+            0
+          ) === 0
+            ? [...prev, { ...response.data[i], chat: chat.data }]
+            : prev
+        );
+      }
     } catch (e) {
       console.log(e);
     }
-  };
+  }, [userJwt.id]);
 
   const checkIsAuth = useCallback(() => {
     if (!localStorage.getItem("token")) {
@@ -27,10 +44,12 @@ export const Chat = () => {
     }
   }, [navigate]);
 
-  useEffect(() => {
+  useMemo(() => {
     checkIsAuth();
-    getUsers();
-  }, [checkIsAuth]);
+    if (!users.length) getUsers();
+  }, [checkIsAuth, users.length, getUsers]);
+
+  console.log(chat);
 
   return (
     <section className={styles.chat}>
@@ -48,7 +67,9 @@ export const Chat = () => {
         </div>
         <div className={styles.chats}>
           {users.map((item) => (
-            <ChatBlock user={item} key={item.id} />
+            <button className={styles.block} key={item.id} onClick={() => setChat(item.chat)}>
+              <ChatBlock user={item} />
+            </button>
           ))}
         </div>
       </div>
@@ -77,7 +98,7 @@ export const Chat = () => {
         </div>
         <div className={styles.chatblock}>
           <div className={styles.overflow_y}>
-            <MessageContainer />
+            <MessageContainer chat={chat}/>
           </div>
         </div>
         <div className={styles.message_block}>

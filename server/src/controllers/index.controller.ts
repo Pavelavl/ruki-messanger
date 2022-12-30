@@ -78,7 +78,7 @@ export const createUser = async (req: Request, res: Response) => {
   for (let i = 0; i < usersId.length; i++) {
     const chatHash = hashCode(`${usersId[i]}_${usersId.at(-1)}`);
     await pool.query(
-      `CREATE TABLE chat_${chatHash} (id SERIAL PRIMARY KEY, message TEXT NOT NULL, id_sender INTEGER NOT NULL, date TIMESTAMP NOT NULL)`
+      `CREATE TABLE chat_${chatHash} (id SERIAL PRIMARY KEY, message TEXT NOT NULL, id_sender INTEGER NOT NULL, seen BOOLEAN DEFAULT false, date TIMESTAMP NOT NULL)`
     );
   }
 

@@ -4,13 +4,12 @@ import logo from "../../assets/images/logo.svg";
 import { useNavigate } from "react-router-dom";
 import { AuthService } from "../../services";
 
-const login = [styles.login_img, styles.icon].join(" ");
-const pass = [styles.pass_img, styles.icon].join(" ");
-const passConf = [styles.pass_conf_img, styles.icon].join(" ");
-const email = [styles.mail_img, styles.icon].join(" ");
-const msg = [styles.msg_img, styles.icon].join(" ");
-
 export const Auth = () => {
+  const login = [styles.login_img, styles.icon].join(" ");
+  const pass = [styles.pass_img, styles.icon].join(" ");
+  const passConf = [styles.pass_conf_img, styles.icon].join(" ");
+  const email = [styles.mail_img, styles.icon].join(" ");
+  const msg = [styles.msg_img, styles.icon].join(" ");
   const navigate = useNavigate();
   const [isReg, setIsReg] = useState(false);
   const [isInvisible, setIsInvisible] = useState(true);
@@ -96,9 +95,15 @@ export const Auth = () => {
     e.preventDefault();
 
     if (!isReg) {
-      await AuthService.login(input.mail, input.password);
+      const response = await AuthService.login(input.mail, input.password);
+      localStorage.setItem("token", response.data.body.accessToken);
     } else {
-      await AuthService.registration(input.username, input.mail, input.password);
+      const response = await AuthService.registration(
+        input.username,
+        input.mail,
+        input.password
+      );
+      localStorage.setItem("token", response.data.body.accessToken);
     }
 
     if (localStorage.getItem("token")) {
@@ -115,7 +120,7 @@ export const Auth = () => {
   return (
     <section className={styles.background}>
       <div className={styles.container}>
-        <img src={logo} className={styles.logo} alt="logo"/>
+        <img src={logo} className={styles.logo} alt="logo" />
         <form onSubmit={handleSub}>
           <div className={styles.inputs_container}>
             {isReg ? (

@@ -1,3 +1,5 @@
+import { ChatResponse } from "./ChatResponse";
+
 export interface UsersResponse {
   id: number;
   username: string;
@@ -7,4 +9,5 @@ export interface UsersResponse {
   surname: string | null;
   mail: string;
   lastVisit: string | null;
+  chat: ChatResponse[];
 }

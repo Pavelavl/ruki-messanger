@@ -113,9 +113,9 @@
 }
 
 .avatar {
-    background-image: url('../../assets/images/avatar.png');
-    width: 55px;
-    height: 55px;
+    background-color: var(--manage-item);
+    width: 45px;
+    height: 45px;
     border-radius: 50%;
     background-size: 100%;
     background-repeat: no-repeat;
@@ -173,4 +173,10 @@
     height: 25px;
     width: 100%;
     padding: 0 10px;
+}
+
+.block {
+    width: 100%;
+    padding: 0;
+    display: flex;
 }
