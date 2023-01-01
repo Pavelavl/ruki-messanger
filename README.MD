@@ -1,7 +1,6 @@
 ## Ruki messanger - Fullstack messanger. 
 
-#### General stack:
-
+### General stack:
 - Typescript
 - Node.JS
 - Web Sockets
