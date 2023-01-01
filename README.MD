@@ -1,15 +1,19 @@
 ## Ruki messanger - Fullstack messanger. 
 
+#### General stack:
+
+- Typescript
+- Node.JS
+- Web Sockets
+
 > #### Client part stack:
 > 
 > - React
-> - Typescript
 > - CSS Modules
 
 > #### Server part stack:
 >
-> - Node.js
-> - Typescript
+> - Rest API
 > - PostgreSQL
 > - Express
 > - JWT Auth
