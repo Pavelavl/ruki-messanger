@@ -6,12 +6,10 @@
 - Web Sockets
 
 > #### Client part stack:
-> 
 > - React
 > - CSS Modules
 
 > #### Server part stack:
->
 > - Rest API
 > - PostgreSQL
 > - Express
