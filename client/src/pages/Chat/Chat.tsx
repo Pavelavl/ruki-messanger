@@ -1,18 +1,19 @@
 import styles from "./Chat.module.css";
 import { ChatBlock, MessageContainer } from "../../components";
 import { lastVisit } from "./utils";
-import { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { UserService } from "../../services";
 import { ChatResponse, UsersResponse } from "../../models/response";
 import { useNavigate } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 import { IUser } from "../../models/IUser";
 
-const date = new Date(Date.now() - 400000); // while production
-
 export const Chat = () => {
   const [users, setUsers] = useState<UsersResponse[]>([]);
   const [chat, setChat] = useState<ChatResponse[]>([]);
+  const [name, setName] = useState<string>("");
+  const [opponent, setOpponent] = useState<number>(0);
+  const [message, setMessage] = useState<string>("");
   const userJwt: IUser = jwtDecode(localStorage.getItem("token")!);
   const navigate = useNavigate();
 
@@ -44,12 +45,40 @@ export const Chat = () => {
     }
   }, [navigate]);
 
+  const onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setMessage(value);
+  };
+
+  const sendMessage = async (event: React.FormEvent) => {
+    event.preventDefault();
+    const sortedIds = [userJwt.id, opponent].sort((a, b) => a - b);
+    try {
+      await UserService.sendMessage(
+        sortedIds[0],
+        sortedIds[1],
+        userJwt.id,
+        message
+      );
+      setChat((prev) => [
+        ...prev,
+        {
+          id: prev.at(-1)!.id + 1 ?? 1,
+          message: message,
+          id_sender: userJwt.id,
+          seen: false,
+          date: new Date().toString(),
+        },
+      ]);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   useMemo(() => {
     checkIsAuth();
     if (!users.length) getUsers();
   }, [checkIsAuth, users.length, getUsers]);
-
-  console.log(chat);
 
   return (
     <section className={styles.chat}>
@@ -67,7 +96,15 @@ export const Chat = () => {
         </div>
         <div className={styles.chats}>
           {users.map((item) => (
-            <button className={styles.block} key={item.id} onClick={() => setChat(item.chat)}>
+            <button
+              className={styles.block}
+              key={item.id}
+              onClick={() => {
+                setChat(item.chat);
+                setName(item.username ?? "");
+                setOpponent(item.id);
+              }}
+            >
               <ChatBlock user={item} />
             </button>
           ))}
@@ -82,8 +119,8 @@ export const Chat = () => {
               </div>
               <div className={[styles.avatar, styles.invisible].join(" ")} />
               <div className={styles.nameblock}>
-                <span className={styles.name}>Pavel</span>
-                <span className={styles.last}>{lastVisit(date)}</span>
+                {chat.length && <span className={styles.name}>{name}</span>}
+                <span className={styles.last}>{lastVisit(new Date())}</span>
               </div>
             </div>
             <div className={styles.rightside}>
@@ -98,19 +135,23 @@ export const Chat = () => {
         </div>
         <div className={styles.chatblock}>
           <div className={styles.overflow_y}>
-            <MessageContainer chat={chat}/>
+            <MessageContainer chat={chat} />
           </div>
         </div>
-        <div className={styles.message_block}>
-          <div className={styles.messagebar}>
-            <input
-              type="text"
-              className={styles.message}
-              placeholder="Message"
-            />
-            <div className={styles.mic} />
+        <form onSubmit={sendMessage}>
+          <div className={styles.message_block}>
+            <div className={styles.messagebar}>
+              <input
+                type="text"
+                className={styles.message}
+                placeholder="Message"
+                onChange={onInputChange}
+                required
+              />
+              <div className={styles.mic} />
+            </div>
           </div>
-        </div>
+        </form>
       </div>
     </section>
   );

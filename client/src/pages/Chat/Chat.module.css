@@ -125,7 +125,7 @@
 .nameblock {
     height: 40px;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     flex-flow: column;
     cursor: pointer;
 }
