@@ -1,23 +1,21 @@
-import express, { Application } from "express";
-import indexRoutes from "./routes/index";
-import dotenv from "dotenv";
-import cors from "cors";
+import express from 'express';
+import dotenv from 'dotenv';
+import { createServer } from 'http';
 
 dotenv.config();
-const app: Application = express();
-const PORT = process.env.PORT || 5000;
 
-// middlewares
-app.use(
-  cors({
-    origin: process.env.CLIENT_URL,
-    credentials: true,
-  })
-);
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+import './core/db';
+import createRoutes from './core/routes';
+import createSocket from './core/socket';
 
-// Routes
-app.use(indexRoutes);
+const app = express();
+const http = createServer(app);
+const io = createSocket(http);
 
-app.listen(PORT, () => console.log("Server on port", PORT));
+createRoutes(app, io);
+
+const PORT: number = process.env.PORT ? Number(process.env.PORT) : 3003;
+
+http.listen(PORT, function () {
+  console.log(`Server: http://localhost:${PORT}`);
+});

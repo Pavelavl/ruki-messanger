@@ -50,6 +50,15 @@ export const Chat = () => {
     setMessage(value);
   };
 
+  const chatRead = async () => {
+    const sortedIds = [userJwt.id, opponent].sort((a, b) => a - b);
+    try {
+      await UserService.updateReadStatus(sortedIds[0], sortedIds[1], userJwt.id);
+    } catch (e) {
+      alert(e);
+    }
+  };
+
   const sendMessage = async (event: React.FormEvent) => {
     event.preventDefault();
     const sortedIds = [userJwt.id, opponent].sort((a, b) => a - b);
@@ -71,10 +80,12 @@ export const Chat = () => {
         },
       ]);
     } catch (e) {
-      console.log(e);
+      alert(e);
     }
   };
 
+  console.log(users[opponent - 1]);
+  
   useMemo(() => {
     checkIsAuth();
     if (!users.length) getUsers();
@@ -103,6 +114,7 @@ export const Chat = () => {
                 setChat(item.chat);
                 setName(item.username ?? "");
                 setOpponent(item.id);
+                chatRead();
               }}
             >
               <ChatBlock user={item} />
