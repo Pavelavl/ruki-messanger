@@ -1,6 +1,6 @@
 ## Ruki messanger - Fullstack messanger. 
 
-#### Receiving a confirmation email
+### Receiving a confirmation email
 To work with mail, I use the nodemailer library. You can specify your SMTP server or connect a test server using the service mailtrap.io
 
 - Register on mailtrap.io
@@ -12,9 +12,9 @@ To work with mail, I use the nodemailer library. You can specify your SMTP serve
 - Restart the backend server.
 - After each account registration in the chat, emails with account confirmation will be received in the "Demo inbox" (Mailtrap) section.
 
-You can also verify your account without the Mailtrap service. Just find your user in the database and tell him confirmed: true or follow the link http://localhost :{FRONTEND_PORT}/signup/verify?hash={HASH}.
+You can also verify your account without the Mailtrap service. Just find your user in the database and tell him confirmed: true or follow the link http://localhost:{FRONTEND_PORT}/signup/verify?hash={HASH}.
 
-#### Uploading files to Cloudinary
+### Uploading files to Cloudinary
 In order for your files to be uploaded successfully, you need to register on the website cloudinary.com
 
 In the file .env you need to fill in the parameters for the Cloudinary API. To do this, go to Dashboard and copy your API parameters.
@@ -25,12 +25,12 @@ In the file .env you need to fill in the parameters for the Cloudinary API. To d
 - Socket.io
 
 > #### Client part stack:
-> React
-> Redux-thunk
-> CSS Modules
+> - React
+> - Redux-thunk
+> - CSS Modules
 
 > #### Server part stack:
-> Rest API
-> MongoDB
-> Express
-> JWT Auth
+> - Rest API
+> - MongoDB
+> - Express
+> - JWT Auth
