@@ -7,7 +7,7 @@ To work with mail, I use the nodemailer library. You can specify your SMTP serve
 - Log in to the account of this service.
 - In the "Inboxes" list, open "Demo inbox".
 - After that, you will have information about your test SMTP and POP3 server.
-- Open the .env file (if not, copy .env.example and rename it to .env)
+- Create the .env file
 - Specify in NODEMAILER_HOST, etc. the data that was given to you mailtrap.io
 - Restart the backend server.
 - After each account registration in the chat, emails with account confirmation will be received in the "Demo inbox" (Mailtrap) section.
