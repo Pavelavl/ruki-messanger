@@ -1,10 +1,9 @@
 import { useState } from "react";
 import styles from "./ChatBlock.module.css";
 import { formatMsg } from "./utils";
-import { UsersResponse } from "../../models/response";
 import { formatDate } from "./utils";
 
-export const ChatBlock = ({ user }: { user: UsersResponse }) => {
+export const ChatBlock = ({ user }: any) => {
   const [active, setActive] = useState([styles.block]);
 
   return (

@@ -4,11 +4,11 @@ const initialState: IState = {
 };
 
 interface IState {
-    items: any[],
-    isLoading: boolean,
+  items: any[];
+  isLoading: boolean;
 }
 
-export default (
+export const messages = (
   state = initialState,
   { type, payload }: { type: string; payload: any }
 ) => {

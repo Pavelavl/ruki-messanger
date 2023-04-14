@@ -1,9 +1,8 @@
-import { ChatResponse } from "../../models/response";
 import { DateSplitter } from "./DateSplitter/DateSplitter";
 import { MessageBlock } from "./MessageBlock/MessageBlock";
 import styles from "./MessageContainer.module.css";
 
-export const MessageContainer = ({ chat }: { chat: ChatResponse[] }) => {
+export const MessageContainer = ({ chat }: any) => {
   if (!chat.length) {
     return (
       <div>Here are no messages</div>
@@ -12,7 +11,7 @@ export const MessageContainer = ({ chat }: { chat: ChatResponse[] }) => {
   
   return (
     <div className={styles.msg_container}>
-      {chat.map((e, i) =>
+      {chat.map((e: any, i: any) =>
         new Date(e.date).valueOf() < new Date().valueOf() ? (
           <div className={styles.pd10} key={e.id}>
             <MessageBlock chat={e}/>

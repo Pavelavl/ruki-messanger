@@ -1,9 +1,8 @@
 import { IUser } from "../../../models/IUser";
-import { ChatResponse } from "../../../models/response";
 import styles from "./MessageBlock.module.css";
 import jwtDecode from "jwt-decode";
 
-export const MessageBlock = ({chat} : {chat: ChatResponse}) => {
+export const MessageBlock = ({chat} : any) => {
   const account: IUser = jwtDecode(localStorage.getItem('token')!);
   const message = [styles.message, chat.id_sender === account.id ? styles.back_client : styles.back_buddy].join(" ");
   const flow = [styles.flow, chat.id_sender === account.id && styles.position_client].join(" ");

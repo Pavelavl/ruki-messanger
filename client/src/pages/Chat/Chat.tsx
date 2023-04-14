@@ -1,95 +1,42 @@
 import styles from "./Chat.module.css";
 import { ChatBlock, MessageContainer } from "../../components";
 import { lastVisit } from "./utils";
-import React, { useCallback, useMemo, useState } from "react";
-import { UserService } from "../../services";
-import { ChatResponse, UsersResponse } from "../../models/response";
-import { useNavigate } from "react-router-dom";
-import jwtDecode from "jwt-decode";
-import { IUser } from "../../models/IUser";
+import React, { useEffect, useState } from "react";
+import { socket } from "../../core/socket";
+import { useDispatch, useSelector, useStore } from "react-redux";
+import { userActions } from "../../redux/actions";
+import { userApi } from "../../utils/api";
 
 export const Chat = () => {
-  const [users, setUsers] = useState<UsersResponse[]>([]);
-  const [chat, setChat] = useState<ChatResponse[]>([]);
-  const [name, setName] = useState<string>("");
-  const [opponent, setOpponent] = useState<number>(0);
-  const [message, setMessage] = useState<string>("");
-  const userJwt: IUser = jwtDecode(localStorage.getItem("token")!);
-  const navigate = useNavigate();
-
-  const getUsers = useCallback(async () => {
-    try {
-      const response = await UserService.fetchUsers();
-      for (let i = 0; i < response.data.length; i++) {
-        const sortedIds = [userJwt.id, response.data[i].id].sort(
-          (a, b) => a - b
-        );
-        const chat = await UserService.fetchChat(sortedIds[0], sortedIds[1]);
-        setUsers((prev) =>
-          prev.reduce(
-            (s, el, i) => (response.data[i].id === el.id ? s++ : s),
-            0
-          ) === 0
-            ? [...prev, { ...response.data[i], chat: chat.data }]
-            : prev
-        );
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  }, [userJwt.id]);
-
-  const checkIsAuth = useCallback(() => {
-    if (!localStorage.getItem("token")) {
-      navigate("/", {});
-    }
-  }, [navigate]);
+  const [message, setMessage] = useState("");
 
   const onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setMessage(value);
   };
+  const user: any = useSelector((state: any) => state.user);
+  const store: any = useStore();
+  const dispatch = useDispatch();
 
-  const chatRead = async () => {
-    const sortedIds = [userJwt.id, opponent].sort((a, b) => a - b);
-    try {
-      await UserService.updateReadStatus(sortedIds[0], sortedIds[1], userJwt.id);
-    } catch (e) {
-      alert(e);
-    }
-  };
+  useEffect(() => {
+    userActions.fetchUsers();
 
-  const sendMessage = async (event: React.FormEvent) => {
-    event.preventDefault();
-    const sortedIds = [userJwt.id, opponent].sort((a, b) => a - b);
-    try {
-      await UserService.sendMessage(
-        sortedIds[0],
-        sortedIds[1],
-        userJwt.id,
-        message
-      );
-      setChat((prev) => [
-        ...prev,
-        {
-          id: prev.at(-1)!.id + 1 ?? 1,
-          message: message,
-          id_sender: userJwt.id,
-          seen: false,
-          date: new Date().toString(),
-        },
-      ]);
-    } catch (e) {
-      alert(e);
-    }
-  };
+    // socket.on("SERVER:DIALOG_CREATED", store.fetchDialogs);
+    // socket.on("SERVER:NEW_MESSAGE", store.fetchDialogs);
+    // socket.on("SERVER:MESSAGES_READED", store.updateReadedStatus);
+    // return () => {
+    //   socket.removeListener("SERVER:DIALOG_CREATED", store.fetchDialogs);
+    //   socket.removeListener("SERVER:NEW_MESSAGE", store.fetchDialogs);
+    // };
+  }, []);
 
-  console.log(users[opponent - 1]);
-  
-  useMemo(() => {
-    checkIsAuth();
-    if (!users.length) getUsers();
-  }, [checkIsAuth, users.length, getUsers]);
+  console.log(user);
+
+  // useEffect(() => {
+  //   const { pathname } = location;
+  //   const dialogId = pathname.split("/").pop();
+  //   setDialog(dialogId);
+  // }, [location.pathname]);
 
   return (
     <section className={styles.chat}>
@@ -106,20 +53,17 @@ export const Chat = () => {
           </div>
         </div>
         <div className={styles.chats}>
-          {users.map((item) => (
+          {/* {user.users.map((item: any) => (
             <button
               className={styles.block}
               key={item.id}
               onClick={() => {
-                setChat(item.chat);
-                setName(item.username ?? "");
-                setOpponent(item.id);
-                chatRead();
+                store.setCurrentDialogId(item.id);
               }}
             >
               <ChatBlock user={item} />
             </button>
-          ))}
+          ))} */}
         </div>
       </div>
       <div className={styles.rightpart}>
@@ -131,7 +75,7 @@ export const Chat = () => {
               </div>
               <div className={[styles.avatar, styles.invisible].join(" ")} />
               <div className={styles.nameblock}>
-                {chat.length && <span className={styles.name}>{name}</span>}
+                {/* {chat.length && <span className={styles.name}>{name}</span>} */}
                 <span className={styles.last}>{lastVisit(new Date())}</span>
               </div>
             </div>
@@ -147,10 +91,10 @@ export const Chat = () => {
         </div>
         <div className={styles.chatblock}>
           <div className={styles.overflow_y}>
-            <MessageContainer chat={chat} />
+            {/* <MessageContainer chat={chat} /> */}
           </div>
         </div>
-        <form onSubmit={sendMessage}>
+        <form>
           <div className={styles.message_block}>
             <div className={styles.messagebar}>
               <input

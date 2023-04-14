@@ -1,10 +1,13 @@
 import jwt from "jsonwebtoken";
 import { reduce } from "lodash";
+import dotenv from "dotenv";
 
 interface ILoginData {
   email: string;
   password: string;
 }
+
+dotenv.config();
 
 export default (user: ILoginData) => {
   const token = jwt.sign(
@@ -20,7 +23,7 @@ export default (user: ILoginData) => {
         {}
       ),
     },
-    process.env.JWT_SECRET || "",
+    process.env.SECRET_KEY || "",
     {
       expiresIn: process.env.JWT_MAX_AGE,
       algorithm: "HS256",

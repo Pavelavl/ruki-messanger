@@ -1,10 +1,12 @@
 import { combineReducers } from "redux";
+import { messages } from "./messages";
+import { dialogs } from "./dialogs";
+import { user } from "./user";
+import { attachments } from "./attachments";
 
-const reducers = ["messages", "dialogs", "user"];
-
-export default combineReducers(
-  reducers.reduce((initial, name) => {
-    initial[name] = require(`./${name}`).default;
-    return initial;
-  }, {})
-);
+export default combineReducers({
+  messages: messages,
+  dialogs: dialogs,
+  user: user,
+  attachments: attachments,
+});

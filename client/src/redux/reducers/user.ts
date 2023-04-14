@@ -2,9 +2,10 @@ const initialState = {
   data: null,
   token: window.localStorage.token,
   isAuth: !!window.localStorage.token,
+  users: [],
 };
 
-export default (
+export const user = (
   state = initialState,
   { type, payload }: { type: string; payload: any }
 ) => {
@@ -20,6 +21,11 @@ export default (
       return {
         ...state,
         isAuth: payload,
+      };
+    case "USERS:SET":
+      return {
+        ...state,
+        users: payload,
       };
     default:
       return state;

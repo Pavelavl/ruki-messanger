@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styles from "./Auth.module.css";
 import logo from "../../assets/images/logo.svg";
 import { useNavigate } from "react-router-dom";
-import { AuthService } from "../../services";
+import store from "../../redux/store";
+import { userActions } from "../../redux/actions";
+import { openNotification } from "../../utils/helpers";
+import get from "lodash/get";
 
 export const Auth = () => {
   const login = [styles.login_img, styles.icon].join(" ");
@@ -12,7 +15,6 @@ export const Auth = () => {
   const msg = [styles.msg_img, styles.icon].join(" ");
   const navigate = useNavigate();
   const [isReg, setIsReg] = useState(false);
-  const [isInvisible, setIsInvisible] = useState(true);
   const [input, setInput] = useState({
     username: "",
     password: "",
@@ -83,39 +85,53 @@ export const Auth = () => {
     });
   };
 
-  const handleCode = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    //future code sender and remember
-
-    setIsInvisible(false);
-  };
-
   const handleSub = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!isReg) {
-      const response = await AuthService.login(input.mail, input.password);
-      localStorage.setItem("token", response.data.body.accessToken);
+      store
+        .dispatch(
+          userActions.fetchUserLogin({
+            mail: input.mail,
+            password: input.password,
+          })
+        )
+        .then(() => {
+          navigate("/chat", {});
+        });
     } else {
-      const response = await AuthService.registration(
-        input.username,
-        input.mail,
-        input.password
-      );
-      localStorage.setItem("token", response.data.body.accessToken);
-    }
-
-    if (localStorage.getItem("token")) {
-      navigate("/chat", {});
+      store
+        .dispatch(
+          userActions.fetchUserRegister({
+            username: input.username,
+            mail: input.mail,
+            password: input.password,
+          })
+        )
+        .then(() => {
+          navigate("/chat", {});
+        })
+        .catch((err) => {
+          if (
+            get(err, "response.data.message.errmsg", "").indexOf("dup") >= 0
+          ) {
+            openNotification({
+              title: "Ошибка",
+              text: "Аккаунт с такой почтой уже создан.",
+              type: "error",
+              duration: 5000,
+            });
+          } else {
+            openNotification({
+              title: "Ошибка",
+              text: "Возникла серверная ошибка при регистрации. Повторите позже.",
+              type: "error",
+              duration: 5000,
+            });
+          }
+        });
     }
   };
-
-  useEffect(() => {
-    if (localStorage.getItem("token")) {
-      navigate("/chat", {});
-    }
-  }, [navigate]);
 
   return (
     <section className={styles.background}>
@@ -190,22 +206,6 @@ export const Auth = () => {
                       <span className={styles.err}>{error.mail}</span>
                     )}
                   </div>
-                  <button
-                    className={styles.code}
-                    onClick={handleCode}
-                    type="button"
-                  >
-                    Code
-                  </button>
-                </div>
-                <div
-                  className={[
-                    styles.inputbox,
-                    isInvisible ? styles.invisible : " ",
-                  ].join(" ")}
-                >
-                  <div className={msg} />
-                  <input required placeholder="code from mail" type="text" />
                 </div>
               </div>
             ) : (
@@ -249,7 +249,9 @@ export const Auth = () => {
         {isReg ? (
           <div className={styles.yet}>
             <span
-              onClick={() => setIsReg((prev) => !prev)}
+              onClick={() => {
+                setIsReg((prev) => !prev);
+              }}
               className={styles.underline}
             >
               Log in
@@ -260,7 +262,6 @@ export const Auth = () => {
           <div className={styles.yet}>
             <span
               onClick={() => {
-                setIsInvisible(true);
                 setIsReg((prev) => !prev);
               }}
               className={styles.underline}

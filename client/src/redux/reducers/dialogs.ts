@@ -4,7 +4,10 @@ const initialState = {
   isLoading: false,
 };
 
-export default (state = initialState, { type, payload }: {type: string, payload: any}) => {
+export const dialogs = (
+  state = initialState,
+  { type, payload }: { type: string; payload: any }
+) => {
   switch (type) {
     case "DIALOGS:SET_ITEMS":
       return {

@@ -1,18 +1,19 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { NotFound } from "./pages";
-import './App.css'
+import "./App.css";
 import { Chat, Auth } from "./pages";
+import { useSelector } from "react-redux";
 
-const App = () => {
+export const App = () => {
+  const { isAuth } = useSelector((state: any) => state.user);
+  
   return (
     <BrowserRouter>
       <Routes>
-        <Route index element={<Auth />} />
-        <Route path="/chat" element={<Chat />} />
+        <Route index element={!isAuth ? <Auth /> : <Chat />} />
+        <Route path="/chat" element={!isAuth ? <Auth /> : <Chat />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );
-}
-
-export default App;
+};
